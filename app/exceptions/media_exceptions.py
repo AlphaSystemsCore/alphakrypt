@@ -11,6 +11,6 @@ class FileSizeTooLargeError(MediaExceptions):
     pass
 
 class MimeTypeNotAllowedError(MediaExceptions):
-    """raised when the application recieves a mime type that is not allowed in"""
+    """raised when the application recieves a mime type that is not allowed"""
     pass
 
