@@ -1,102 +1,67 @@
-                                            FILE STORAGE ENGINE
-Description(shrinked):
-        File storage engine, upload and save files.
+# File Storage Engine
+### File
+Is a persistent sequence of bytes with filesystem that is stored and accessed through filesystems namespace.
+### Filesystem
+A system of rules and datastructures that, allow the os to be able to store, retrive, delete, update and manage peristent data and metadata
 
-Full Description:
-        User uploads file, after the app has finished streaming the file. It is presented in the backend as file-like object. I check the mime-type by generating the file's mime-type. Checking the file's by using the mime-type to get the extension. Extensions are stored as values in a key-value (mime-type - extension) where, the key is the mime-type while the value is the latter. So I try to retrieve the extension, from the k-v pair. If I get the extension that means the, mime-type is valid. Else the opposite. If valid, I go ahead to size validation, checksum and writing to the disk. File is read in chunks, while I keep read of total read bytes.If the total bytes are greater than the maximum allowed file size, an error is raise and the partially broken written bytes are erased automatically. Else the program continues, checksum is generated simulteneously. As the chunk are validated, and written onto the disk. The rest are now collection of metadata. This is the first part of the system. File storage and metadata storage.
-        The last part of this document contain flowchart-like structure to explain the workflow.
+## Description
+This is a system that allows storage of files, but the file size, mime type is limited to my needs and purpose of the project.
 
+## Goals
+I want a robust application that will store files, be resilient whenever a business rule fails, and simply learn through the project on how to have a file storage system.
 
-
-Purpose:
-        Upload, store, locate, read, write, delete, update, rename and manage file as a whole remotely.
-   
-File: 
-        Is a persistent data identified by a name in a filesystem.(My own thought!)
-
-Filesystem:
-        Rules and datastructure that organizes persistent storage into directory or files, allowing the OS to locate, read, write, rename, delete and manage filesystem objects.(My own thought!)
-
-File size Restriction:
-        Allowed file size: 50MBs.
-
-Allowed content types or MIME types(only for building and testing): 
-        text/plain, 
-        application/pdf, 
-        image/png, 
-        video/x-matroska
-
-How I generated the MIME types:
-        Used lib magic, by passing in file-like object and getting its MIME type.
-
-Metadata stored in the database:
-I only store metadata that; to track file's identy, its location, and its relationship to users/ owners.
-metadata to be collected:
-
-                owner_id
-
-                generated_filename
-
-                original_filename
-
-                Path
-
-                checksum
-
-                mime_type
-
-                size
-
-                status pending eg. uploaded, failed, deleted
-
-                created_at
-
-                update_at
-
-                deleted_at
-
-
-
-                        Compressed Workflow Of The System 
-The arrow represents the dependants.
-Which step comes first.
-
-                        user uploads file 
-                                ^
-                                |
-                        my read bytes in chunks and create a file-like object
-                                ^
-                                |
-                        the backend/ service takes in the file like object to manipulate and check
-                                ^
-                                |
-                        check the mime type and assign an extension 
-                                ^
-                                |
-                        check the size, generate checksums and write the file to the disk as the simulteneously
-                                ^
-                                |
-                        if the process above succeeds, the metadata will be saved to the db
-                                ^
-                                |
-                        when the latter process fails, the writen file will be deleted and everything will be undone.
-                                ^
-                                |
-                        ultimately send the client confirmation
-
-Each process depends on the other one, the second depends on the first, and ...
-
-
-File size validation, checksum and writing to disk:
-        Size validation:
-                Maximum size have been set to, 50mbs.
-                File is read in chunks, as size is measured alongside.
-                When the total chunks size surpasses the allowed file, the file is rejected
-                
+## Architecture
+        client
         
 
+Upload Endpoint
+        
+
+File validation
+MIME validation
+Size validation
+        
+
+Streaming Storage
+write chunk
+update checksum
 
 
+Persist Metadata
+Mark File Available
+        
 
+Return Response
+
+
+## Upload Lifecycle
+
+## File Validation
+
+### MIME validation
+### Size validation
+### Checksum generation
+
+## Storage
+
+## Metadata
+
+## State Model
+
+## Failure and Cleanup
+
+## API
+
+## Database Schema
+
+## Storage Layout
+
+## Security Considerations
+
+## Testing
+
+## Known Limitations
+
+## Future Improvements
 
                             ©️ALPHASYSTEMSCORE
