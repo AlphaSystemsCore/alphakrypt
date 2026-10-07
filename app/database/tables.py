@@ -6,11 +6,12 @@ table_definition = [
         last_name VARCHAR(50) NOT NULL,
         middle_name VARCHAR(),
         email TEXT UNIQUE NOT NULL,
-        credential
+        credential_id UUID NOT NULL,
         status to define later,
         created_at TIMESTAMPTZ DEFAULT NOW(),
         updated_at TIMESTAMPTZ,
-        delete_at TIMESTAMPTZ,
+        delete_at TIMESTAMPTZ
+        FOREIGN KEY (credential_id) REFERENCES (credential_id)
 
     """,
     """
