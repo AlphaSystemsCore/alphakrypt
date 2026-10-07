@@ -9,5 +9,5 @@ app.include_router(media_router)
 @app.get("/")
 def status():
     return {
-        "server":"on"
+        "status":"server is on"
     }
