@@ -6,7 +6,10 @@ table_definition = [
     CREATE TYPE users_status AS ENUM ('active', 'deleted', 'revoked', 'suspended')
     """,
     """
-    CREATE TYPE credential_status AS ENUM ('suspended', 'active')
+    CREATE TYPE credential_status AS ENUM ('suspended', 'active', loggedOut)
+    """,
+    """
+    CREATE TYPE notification_status AS ENUM ('sent', 'received', 'deleted', 'read', 'edited')
     """,
     """
     CREATE TABLE users(
