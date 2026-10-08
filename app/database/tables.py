@@ -3,7 +3,7 @@ table_definition = [
     CREATE TYPE roles AS EMUN ('admin', 'user', 'moderator', 'developer') 
     """,
     """
-    CREATE TYPE users_status AS 
+    CREATE TYPE users_status AS ENUM ('active', 'deleted', 'revoked', 'suspended')
     """,
     """
     CREATE TABLE users(
