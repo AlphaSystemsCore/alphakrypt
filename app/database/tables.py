@@ -1,11 +1,18 @@
 table_definition = [
     """
+    CREATE TYPE roles AS EMUN ('admin', 'user', 'moderator', 'developer') 
+    """,
+    """
+    CREATE TYPE users_status AS 
+    """,
+    """
     CREATE TABLE users(
         user_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
         first_name VARCHAR(50) NOT NULL,
         last_name VARCHAR(50) NOT NULL,
         middle_name VARCHAR(),
         email TEXT UNIQUE NOT NULL,
+        role to define later DEFAULT 'user',
         credential_id UUID NOT NULL,
         status to define later,
         created_at TIMESTAMPTZ DEFAULT NOW(),
