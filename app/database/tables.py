@@ -6,6 +6,9 @@ table_definition = [
     CREATE TYPE users_status AS ENUM ('active', 'deleted', 'revoked', 'suspended')
     """,
     """
+    CREATE TYPE credential_status AS ENUM ('suspended', 'active')
+    """,
+    """
     CREATE TABLE users(
         user_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
         first_name VARCHAR(50) NOT NULL,
@@ -47,6 +50,21 @@ table_definition = [
     updated_at TIMESTAMPTZ,
     deleted_at TIMESTAMPTZ
     FOREIGN KEY (owner_id) REFERENCES users(user_id)
+    );
+    """,
+
+    """
+    CREATE TABLE notifications(
+    notification_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    sender_id UUID NOT NULL,
+    recipient_id UUID NOT NULL,
+    message TEXT NOT NULL,
+    status VARCHAR(50) DEFAULT to be implemented,
+    created_at TIMESTAMPTZ DEFAULT NOW(),
+    updated_at TIMESTAMPTZ,
+    deleted_at TIMESTAMPTZ
+    FOREIGN KEY notifications(sender_id) REFERENCES users(user_id) ON DELETE CASCADE,
+    FOREIGN KEY notifications(recipient_id) REFERENCE users(user_id) ON DELETE CASCADE,
     );
     """
 ]
