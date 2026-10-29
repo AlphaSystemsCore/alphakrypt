@@ -3,33 +3,19 @@ import psycopg2.pool
 from psycopg2.extras import RealDictCursor
 from contextlib import contextmanager
 
+from app.configs.load_envs import LOCAL_DSN_STRING, MAXIMUM_CONN, MINIMUM_CONN
 
-db_pool = psycopg2.pool.SimpleConnectionPool(
-    1,
-    20,
-    DATABASE_URL
+db_pool = psycopg2.pool.ThreadedConnectionPool(
+    MINIMUM_CONN,
+    MAXIMUM_CONN,
+    LOCAL_DSN_STRING
+
 )
-@contextmanager
-def get_conn():
-    conn = db_pool.getconn()
-    try:
-        yield conn
-    except Exception as e:
-        print("Error: ", e)
-        raise
-    finally:
-        conn.putconn(conn)
 
-@contextmanager
-def get_cur():
-    with get_conn() as conn:
-        cur = conn.cursor()
-        try:
-            yield cur
-            conn.commit()
-        except Exception as e:
-            print("Error: ", e)
-            conn.rollback()
-            raise
-        finally:
-            cur.close()
+
+            
+if __name__ == "__main__":
+    with get_cur() as cur:
+        cur.execute("SELECT CURRENT_DATABASE();")
+        results = cur.fetchone()
+    print(results)
