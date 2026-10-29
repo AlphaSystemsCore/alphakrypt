@@ -12,6 +12,25 @@ db_pool = psycopg2.pool.ThreadedConnectionPool(
 
 )
 
+@contextmanager
+def get_conn():
+    # context manager will manager the cleanup
+    conn = db_pool.getconn()
+    try:
+        with conn:
+            yield conn
+    finally:
+        db_pool.putconn(conn, close=True)
+
+@contextmanager
+def get_cur():
+    with get_conn() as conn:
+        with conn.cursor() as cur:
+            yield cur
+            
+
+        
+
 
             
 if __name__ == "__main__":
